@@ -8,10 +8,17 @@
     <div class="channel-list">
       <div class="list-head">Channels</div>
       <div class="channel" ng-repeat="channel in canal.channels">
-        <a>#{{channel.name}}</a>
+        <a ui-sref="channels.messages({channelId: channel.$id})" ui-sref-active="selected">#{{channel.name}}</a>
       </div>
       <div class="channel create">
         <a ui-sref="channels.create">+ create channel</a>
+      </div>
+      <div class="list-head">Direct Messages</div>
+      <div class="channel" ng-repeat="user in canal.users">
+        <a ng-if="user.$id !== canal.profile.$id" ui-sref="channels.direct({uid: user.$id})" ui-sref-active="selected">
+          <span class="presence" ng-class="{online: user.online}"></span>
+          {{ user.displayName }}
+        </a>
       </div>
     </div>
 
@@ -19,6 +26,7 @@
       <img class="user-pic" ng-src="{{ canal.getGravatar(canal.profile.$id) }}" />
       <div class="user-info">
         <div class="user-name">
+          <span class="presence" ng-class="{online: canal.profile.online}"></span>
           {{ canal.profile.displayName }}
         </div>
 
